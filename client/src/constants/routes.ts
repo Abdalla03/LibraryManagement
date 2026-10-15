@@ -1,0 +1,58 @@
+// Centralized route path constants.
+// Using constants prevents typos and enables IDE refactoring across the entire app.
+
+export const ROUTES = {
+  // Public
+  HOME: '/home',
+  ABOUT: '/about',
+  CONTACT: '/contact',
+  LOGIN: '/login',
+  REGISTER: '/register',
+  VERIFY_EMAIL: '/verify-email',
+  VERIFY_OTP: '/verify-otp',
+  UNAUTHORIZED: '/unauthorized',
+  NOT_FOUND: '/not-found',
+
+  // Public catalogue
+  BOOKS: '/books',
+  BOOK_DETAIL: (id: number | string) => `/books/${id}`,
+
+  // App (authenticated)
+  APP: '/app',
+  DASHBOARD: '/app/dashboard',
+  FAVORITES: '/favorites',
+
+  // Admin — Books
+  ADMIN_BOOKS: '/app/books',
+  ADMIN_BOOK_CREATE: '/app/books/new',
+  ADMIN_BOOK_EDIT: (id: number | string) => `/app/books/${id}/edit`,
+
+  // Admin — Subscriptions & Deliveries
+  ADMIN_SUBSCRIPTIONS: '/app/admin/subscriptions',
+  ADMIN_DELIVERIES: '/app/admin/deliveries',
+  AUTHORS: '/app/authors',
+  AUTHOR_CREATE: '/app/authors/new',
+  AUTHOR_EDIT: (id: number | string) => `/app/authors/${id}/edit`,
+
+  // Admin — Categories
+  CATEGORIES: '/app/categories',
+  CATEGORY_CREATE: '/app/categories/new',
+  CATEGORY_EDIT: (id: number | string) => `/app/categories/${id}/edit`,
+
+  // Admin — Borrowings
+  BORROWINGS: '/app/borrowings',
+
+  // Admin — Users
+  USERS: '/app/users',
+
+  // Librarian — Members
+  MEMBERS: '/app/members',
+  MEMBER_DETAIL: (id: string | number) => `/app/members/${id}`,
+
+  // Member
+  MY_BORROWINGS: '/app/my-borrowings',
+
+  // Shared (any authenticated user)
+  PROFILE: '/app/profile',
+  SETTINGS: '/app/settings',
+} as const;

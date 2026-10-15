@@ -1,0 +1,50 @@
+using AutoMapper;
+
+namespace LibraryManagement.Application.Mappings;
+
+/// <summary>
+/// Centralized AutoMapper profile for the Application layer.
+/// Used to map between Domain entities and Data Transfer Objects (DTOs).
+/// </summary>
+public class MappingProfile : Profile
+{
+    /// <summary>
+    /// Initializes a new instance of <see cref="MappingProfile"/> and configures mapping rules.
+    /// </summary>
+    public MappingProfile()
+    {
+        // Category Mappings
+        CreateMap<Domain.Entities.Category, DTOs.Category.CategoryDto>().ReverseMap();
+        CreateMap<DTOs.Category.CreateCategoryRequestDto, Domain.Entities.Category>();
+        CreateMap<DTOs.Category.UpdateCategoryRequestDto, Domain.Entities.Category>();
+
+        // Author Mappings
+        CreateMap<Domain.Entities.Author, DTOs.Author.AuthorDto>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
+            .ReverseMap();
+        CreateMap<DTOs.Author.CreateAuthorRequestDto, Domain.Entities.Author>()
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Name) ? string.Empty : (src.Name.Contains(' ') ? src.Name.Substring(0, src.Name.IndexOf(' ')) : src.Name)))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Name) || !src.Name.Contains(' ') ? string.Empty : src.Name.Substring(src.Name.IndexOf(' ') + 1)))
+            .ForMember(dest => dest.Bio, opt => opt.MapFrom(src => src.Biography));
+            
+        CreateMap<DTOs.Author.UpdateAuthorRequestDto, Domain.Entities.Author>()
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Name) ? string.Empty : (src.Name.Contains(' ') ? src.Name.Substring(0, src.Name.IndexOf(' ')) : src.Name)))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.Name) || !src.Name.Contains(' ') ? string.Empty : src.Name.Substring(src.Name.IndexOf(' ') + 1)))
+            .ForMember(dest => dest.Bio, opt => opt.MapFrom(src => src.Biography));
+
+        // Book Mappings
+        CreateMap<Domain.Entities.Book, DTOs.Book.BookDto>()
+            .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? src.Author.FullName : string.Empty))
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
+            .ReverseMap();
+        CreateMap<DTOs.Book.CreateBookRequestDto, Domain.Entities.Book>()
+            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublishedYear));
+        CreateMap<DTOs.Book.UpdateBookRequestDto, Domain.Entities.Book>()
+            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublishedYear));
+
+        // Admin User Mappings
+        CreateMap<Domain.Entities.ApplicationUser, DTOs.Admin.Users.AdminUserDto>()
+            .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => !src.IsDeleted))
+            .ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => src.CreatedAt));
+    }
+}
