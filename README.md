@@ -280,8 +280,6 @@ This project aims to demonstrate:
 
 # 👨‍💻 Author
 
-Mohammed Hassan
-
 Mahmoud Gaber
 
 Ahmed Tarek

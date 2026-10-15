@@ -41,7 +41,7 @@ export default function Footer() {
             © {currentYear} ITI Graduation Project
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: { xs: 1, sm: 0 } }}>
-            Developed by Mohammed Hassan
+            Developed by the ITI Graduation Project Team
           </Typography>
         </Box>
       </Container>
